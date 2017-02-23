@@ -1,6 +1,6 @@
 # shmem_iso_c_binding
 
-A simple Fortran example that uses [ISO_C_BINDING](https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html) to call OpenSHMEM.
+A simple Fortran example that uses [ISO_C_BINDING](https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html) to call [OpenSHMEM](http://www.openshmem.org/).
 
 Comple with `make`.  Here's with GCC 4.8:
 ```
