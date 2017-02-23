@@ -96,6 +96,17 @@ module shmem
   end interface
 
   interface
+    subroutine shmem_char_put(dest, src, nelems, pe) &
+        bind(C,name="shmem_char_put")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR) :: dest
+      character(kind=C_CHAR) :: src
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_char_put
+  end interface
+
+  interface
     subroutine shmem_int_put(dest, src, nelems, pe) &
         bind(C,name="shmem_int_put")
       use, intrinsic :: iso_c_binding
@@ -165,8 +176,8 @@ module shmem
     subroutine shmem_putmem(dest, src, nelems, pe) &
         bind(C,name="shmem_putmem")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_putmem
@@ -176,8 +187,8 @@ module shmem
     subroutine shmem_put32(dest, src, nelems, pe) &
         bind(C,name="shmem_put32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_put32
@@ -187,8 +198,8 @@ module shmem
     subroutine shmem_put64(dest, src, nelems, pe) &
         bind(C,name="shmem_put64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_put64
@@ -198,8 +209,8 @@ module shmem
     subroutine shmem_put128(dest, src, nelems, pe) &
         bind(C,name="shmem_put128")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_put128
@@ -225,6 +236,17 @@ module shmem
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_int_get
+  end interface
+
+  interface
+    subroutine shmem_char_get(dest, src, nelems, pe) &
+        bind(C,name="shmem_char_get")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR) :: dest
+      character(kind=C_CHAR) :: src
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_char_get
   end interface
 
   interface
@@ -286,8 +308,8 @@ module shmem
     subroutine shmem_getmem(dest, src, nelems, pe) &
         bind(C,name="shmem_getmem")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_getmem
@@ -297,8 +319,8 @@ module shmem
     subroutine shmem_get32(dest, src, nelems, pe) &
         bind(C,name="shmem_get32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_get32
@@ -308,8 +330,8 @@ module shmem
     subroutine shmem_get64(dest, src, nelems, pe) &
         bind(C,name="shmem_get64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_get64
@@ -319,8 +341,8 @@ module shmem
     subroutine shmem_get128(dest, src, nelems, pe) &
         bind(C,name="shmem_get128")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: dest
-      type(C_PTR) :: src
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: src
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: pe
     end subroutine shmem_get128
@@ -518,11 +540,24 @@ module shmem
   end interface
 
   interface
+    subroutine shmem_char_iput(target, source, tst, sst, nelems, pe) &
+        bind(C,name="shmem_char_iput")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR) :: target
+      character(kind=C_CHAR) :: source
+      integer(kind=C_INTPTR_T), value :: tst
+      integer(kind=C_INTPTR_T), value :: sst
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_char_iput
+  end interface
+
+  interface
     subroutine shmem_iput32(target, source, tst, sst, nelems, pe) &
         bind(C,name="shmem_iput32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_INTPTR_T), value :: tst
       integer(kind=C_INTPTR_T), value :: sst
       integer(kind=C_SIZE_T), value :: nelems
@@ -534,8 +569,8 @@ module shmem
     subroutine shmem_iput64(target, source, tst, sst, nelems, pe) &
         bind(C,name="shmem_iput64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_INTPTR_T), value :: tst
       integer(kind=C_INTPTR_T), value :: sst
       integer(kind=C_SIZE_T), value :: nelems
@@ -547,8 +582,8 @@ module shmem
     subroutine shmem_iput128(target, source, tst, sst, nelems, pe) &
         bind(C,name="shmem_iput128")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_INTPTR_T), value :: tst
       integer(kind=C_INTPTR_T), value :: sst
       integer(kind=C_SIZE_T), value :: nelems
@@ -648,11 +683,24 @@ module shmem
   end interface
 
   interface
+    subroutine shmem_char_iget(target, source, tst, sst, nelems, pe) &
+        bind(C,name="shmem_char_iget")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR) :: target
+      character(kind=C_CHAR) :: source
+      integer(kind=C_INTPTR_T), value :: tst
+      integer(kind=C_INTPTR_T), value :: sst
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_char_iget
+  end interface
+
+  interface
     subroutine shmem_iget32(target, source, tst, sst, nelems, pe) &
         bind(C,name="shmem_iget32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_INTPTR_T), value :: tst
       integer(kind=C_INTPTR_T), value :: sst
       integer(kind=C_SIZE_T), value :: nelems
@@ -664,8 +712,8 @@ module shmem
     subroutine shmem_iget64(target, source, tst, sst, nelems, pe) &
         bind(C,name="shmem_iget64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_INTPTR_T), value :: tst
       integer(kind=C_INTPTR_T), value :: sst
       integer(kind=C_SIZE_T), value :: nelems
@@ -677,8 +725,8 @@ module shmem
     subroutine shmem_iget128(target, source, tst, sst, nelems, pe) &
         bind(C,name="shmem_iget128")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_INTPTR_T), value :: tst
       integer(kind=C_INTPTR_T), value :: sst
       integer(kind=C_SIZE_T), value :: nelems
@@ -739,6 +787,270 @@ module shmem
   end interface
 
   interface
+    subroutine shmem_double_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_double_put_nbi")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_DOUBLE) :: dest
+      real(kind=C_DOUBLE) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_double_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_float_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_float_put_nbi")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_FLOAT) :: dest
+      real(kind=C_FLOAT) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_float_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_char_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_char_put_nbi")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR) :: dest
+      character(kind=C_CHAR) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_char_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_int_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_int_put_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_INT) :: dest
+      integer(kind=C_INT) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_int_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_long_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_long_put_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG) :: dest
+      integer(kind=C_LONG) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_long_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_longdouble_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_longdouble_put_nbi")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_LONG_DOUBLE) :: dest
+      real(kind=C_LONG_DOUBLE) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_longdouble_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_longlong_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_longlong_put_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG_LONG) :: dest
+      integer(kind=C_LONG_LONG) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_longlong_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_put32_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_put32_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_put32_nbi
+  end interface
+
+  interface
+    subroutine shmem_put64_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_put64_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_put64_nbi
+  end interface
+
+  interface
+    subroutine shmem_put128_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_put128_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_put128_nbi
+  end interface
+
+  interface
+    subroutine shmem_putmem_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_putmem_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_putmem_nbi
+  end interface
+
+  interface
+    subroutine shmem_short_put_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_short_put_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_SHORT) :: dest
+      integer(kind=C_SHORT) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_short_put_nbi
+  end interface
+
+  interface
+    subroutine shmem_double_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_double_get_nbi")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_DOUBLE) :: dest
+      real(kind=C_DOUBLE) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_double_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_float_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_float_get_nbi")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_FLOAT) :: dest
+      real(kind=C_FLOAT) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_float_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_get32_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_get32_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_get32_nbi
+  end interface
+
+  interface
+    subroutine shmem_get64_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_get64_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_get64_nbi
+  end interface
+
+  interface
+    subroutine shmem_get128_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_get128_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_get128_nbi
+  end interface
+
+  interface
+    subroutine shmem_getmem_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_getmem_nbi")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: dest
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_getmem_nbi
+  end interface
+
+  interface
+    subroutine shmem_int_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_int_get_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_INT) :: dest
+      integer(kind=C_INT) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_int_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_char_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_char_get_nbi")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR) :: dest
+      character(kind=C_CHAR) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_char_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_long_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_long_get_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG) :: dest
+      integer(kind=C_LONG) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_long_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_longdouble_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_longdouble_get_nbi")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_LONG_DOUBLE) :: dest
+      real(kind=C_LONG_DOUBLE) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_longdouble_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_longlong_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_longlong_get_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG_LONG) :: dest
+      integer(kind=C_LONG_LONG) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_longlong_get_nbi
+  end interface
+
+  interface
+    subroutine shmem_short_get_nbi(dest, source, nelems, pe) &
+        bind(C,name="shmem_short_get_nbi")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_SHORT) :: dest
+      integer(kind=C_SHORT) :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_short_get_nbi
+  end interface
+
+  interface
     subroutine shmem_barrier_all() &
         bind(C,name="shmem_barrier_all")
       use, intrinsic :: iso_c_binding
@@ -782,7 +1094,7 @@ module shmem
     integer(kind=C_INT) function shmem_addr_accessible(addr, pe) &
         bind(C,name="shmem_addr_accessible")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: addr
+      type(C_PTR), value :: addr
       integer(kind=C_INT), value :: pe
     end function shmem_addr_accessible
   end interface
@@ -791,7 +1103,7 @@ module shmem
     type(C_PTR) function shmem_ptr(target, pe) &
         bind(C,name="shmem_ptr")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
+      type(C_PTR), value :: target
       integer(kind=C_INT), value :: pe
     end function shmem_ptr
   end interface
@@ -808,7 +1120,7 @@ module shmem
     subroutine shfree(ptr) &
         bind(C,name="shfree")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: ptr
+      type(C_PTR), value :: ptr
     end subroutine shfree
   end interface
 
@@ -816,7 +1128,7 @@ module shmem
     type(C_PTR) function shrealloc(ptr, size) &
         bind(C,name="shrealloc")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: ptr
+      type(C_PTR), value :: ptr
       integer(kind=C_SIZE_T), value :: size
     end function shrealloc
   end interface
@@ -842,7 +1154,7 @@ module shmem
     subroutine shmem_free(ptr) &
         bind(C,name="shmem_free")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: ptr
+      type(C_PTR), value :: ptr
     end subroutine shmem_free
   end interface
 
@@ -850,7 +1162,7 @@ module shmem
     type(C_PTR) function shmem_realloc(ptr, size) &
         bind(C,name="shmem_realloc")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: ptr
+      type(C_PTR), value :: ptr
       integer(kind=C_SIZE_T), value :: size
     end function shmem_realloc
   end interface
@@ -905,16 +1217,6 @@ module shmem
   end interface
 
   interface
-    subroutine shmem_wait_until(ivar, cmp, cmp_value) &
-        bind(C,name="shmem_wait_until")
-      use, intrinsic :: iso_c_binding
-      integer(kind=C_LONG) :: ivar
-      integer(kind=C_INT), value :: cmp
-      integer(kind=C_LONG), value :: cmp_value
-    end subroutine shmem_wait_until
-  end interface
-
-  interface
     subroutine shmem_long_wait(ivar, cmp_value) &
         bind(C,name="shmem_long_wait")
       use, intrinsic :: iso_c_binding
@@ -948,15 +1250,6 @@ module shmem
       integer(kind=C_LONG_LONG) :: ivar
       integer(kind=C_LONG_LONG), value :: cmp_value
     end subroutine shmem_longlong_wait
-  end interface
-
-  interface
-    subroutine shmem_wait(ivar, cmp_value) &
-        bind(C,name="shmem_wait")
-      use, intrinsic :: iso_c_binding
-      integer(kind=C_LONG) :: ivar
-      integer(kind=C_LONG), value :: cmp_value
-    end subroutine shmem_wait
   end interface
 
   interface
@@ -1174,7 +1467,7 @@ module shmem
     subroutine shmem_clear_cache_line_inv(target) &
         bind(C,name="shmem_clear_cache_line_inv")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
+      type(C_PTR), value :: target
     end subroutine shmem_clear_cache_line_inv
   end interface
 
@@ -1182,7 +1475,7 @@ module shmem
     subroutine shmem_set_cache_line_inv(target) &
         bind(C,name="shmem_set_cache_line_inv")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
+      type(C_PTR), value :: target
     end subroutine shmem_set_cache_line_inv
   end interface
 
@@ -1197,7 +1490,7 @@ module shmem
     subroutine shmem_udcflush_line(target) &
         bind(C,name="shmem_udcflush_line")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
+      type(C_PTR), value :: target
     end subroutine shmem_udcflush_line
   end interface
 
@@ -1805,8 +2098,8 @@ module shmem
     subroutine shmem_broadcast64(target, source, nelems, PE_root, PE_start, logPE_stride, PE_size, pSync) &
         bind(C,name="shmem_broadcast64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: PE_root
       integer(kind=C_INT), value :: PE_start
@@ -1820,8 +2113,8 @@ module shmem
     subroutine shmem_broadcast32(target, source, nelems, PE_root, PE_start, logPE_stride, PE_size, pSync) &
         bind(C,name="shmem_broadcast32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: PE_root
       integer(kind=C_INT), value :: PE_start
@@ -1835,8 +2128,8 @@ module shmem
     subroutine shmem_fcollect64(target, source, nelems, PE_start, logPE_stride, PE_size, pSync) &
         bind(C,name="shmem_fcollect64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: PE_start
       integer(kind=C_INT), value :: logPE_stride
@@ -1849,8 +2142,8 @@ module shmem
     subroutine shmem_fcollect32(target, source, nelems, PE_start, logPE_stride, PE_size, pSync) &
         bind(C,name="shmem_fcollect32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: PE_start
       integer(kind=C_INT), value :: logPE_stride
@@ -1863,8 +2156,8 @@ module shmem
     subroutine shmem_collect64(target, source, nelems, PE_start, logPE_stride, PE_size, pSync) &
         bind(C,name="shmem_collect64")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: PE_start
       integer(kind=C_INT), value :: logPE_stride
@@ -1877,14 +2170,74 @@ module shmem
     subroutine shmem_collect32(target, source, nelems, PE_start, logPE_stride, PE_size, pSync) &
         bind(C,name="shmem_collect32")
       use, intrinsic :: iso_c_binding
-      type(C_PTR) :: target
-      type(C_PTR) :: source
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
       integer(kind=C_SIZE_T), value :: nelems
       integer(kind=C_INT), value :: PE_start
       integer(kind=C_INT), value :: logPE_stride
       integer(kind=C_INT), value :: PE_size
       integer(kind=C_LONG) :: pSync
     end subroutine shmem_collect32
+  end interface
+
+  interface
+    subroutine shmem_alltoall32(target, source, nelems, PE_start, logPE_stride, PE_size, pSync) &
+        bind(C,name="shmem_alltoall32")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: PE_start
+      integer(kind=C_INT), value :: logPE_stride
+      integer(kind=C_INT), value :: PE_size
+      integer(kind=C_LONG) :: pSync
+    end subroutine shmem_alltoall32
+  end interface
+
+  interface
+    subroutine shmem_alltoall64(target, source, nelems, PE_start, logPE_stride, PE_size, pSync) &
+        bind(C,name="shmem_alltoall64")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: PE_start
+      integer(kind=C_INT), value :: logPE_stride
+      integer(kind=C_INT), value :: PE_size
+      integer(kind=C_LONG) :: pSync
+    end subroutine shmem_alltoall64
+  end interface
+
+  interface
+    subroutine shmem_alltoalls32(target, source, dst, sst, nelems, PE_start, logPE_stride, PE_size, pSync) &
+        bind(C,name="shmem_alltoalls32")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
+      integer(kind=C_INTPTR_T), value :: dst
+      integer(kind=C_INTPTR_T), value :: sst
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: PE_start
+      integer(kind=C_INT), value :: logPE_stride
+      integer(kind=C_INT), value :: PE_size
+      integer(kind=C_LONG) :: pSync
+    end subroutine shmem_alltoalls32
+  end interface
+
+  interface
+    subroutine shmem_alltoalls64(target, source, dst, sst, nelems, PE_start, logPE_stride, PE_size, pSync) &
+        bind(C,name="shmem_alltoalls64")
+      use, intrinsic :: iso_c_binding
+      type(C_PTR), value :: target
+      type(C_PTR), value :: source
+      integer(kind=C_INTPTR_T), value :: dst
+      integer(kind=C_INTPTR_T), value :: sst
+      integer(kind=C_SIZE_T), value :: nelems
+      integer(kind=C_INT), value :: PE_start
+      integer(kind=C_INT), value :: logPE_stride
+      integer(kind=C_INT), value :: PE_size
+      integer(kind=C_LONG) :: pSync
+    end subroutine shmem_alltoalls64
   end interface
 
   interface
@@ -1909,6 +2262,101 @@ module shmem
       use, intrinsic :: iso_c_binding
       integer(kind=C_LONG) :: lock
     end function shmem_test_lock
+  end interface
+
+  interface
+    integer(kind=C_INT) function shmem_int_fetch(dest, pe) &
+        bind(C,name="shmem_int_fetch")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_INT) :: dest
+      integer(kind=C_INT), value :: pe
+    end function shmem_int_fetch
+  end interface
+
+  interface
+    integer(kind=C_LONG) function shmem_long_fetch(dest, pe) &
+        bind(C,name="shmem_long_fetch")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG) :: dest
+      integer(kind=C_INT), value :: pe
+    end function shmem_long_fetch
+  end interface
+
+  interface
+    integer(kind=C_LONG_LONG) function shmem_longlong_fetch(dest, pe) &
+        bind(C,name="shmem_longlong_fetch")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG_LONG) :: dest
+      integer(kind=C_INT), value :: pe
+    end function shmem_longlong_fetch
+  end interface
+
+  interface
+    real(kind=C_FLOAT) function shmem_float_fetch(dest, pe) &
+        bind(C,name="shmem_float_fetch")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_FLOAT) :: dest
+      integer(kind=C_INT), value :: pe
+    end function shmem_float_fetch
+  end interface
+
+  interface
+    real(kind=C_DOUBLE) function shmem_double_fetch(dest, pe) &
+        bind(C,name="shmem_double_fetch")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_DOUBLE) :: dest
+      integer(kind=C_INT), value :: pe
+    end function shmem_double_fetch
+  end interface
+
+  interface
+    subroutine shmem_int_set(dest, value, pe) &
+        bind(C,name="shmem_int_set")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_INT) :: dest
+      integer(kind=C_INT), value :: value
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_int_set
+  end interface
+
+  interface
+    subroutine shmem_long_set(dest, value, pe) &
+        bind(C,name="shmem_long_set")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG) :: dest
+      integer(kind=C_LONG), value :: value
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_long_set
+  end interface
+
+  interface
+    subroutine shmem_longlong_set(dest, value, pe) &
+        bind(C,name="shmem_longlong_set")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_LONG_LONG) :: dest
+      integer(kind=C_LONG_LONG), value :: value
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_longlong_set
+  end interface
+
+  interface
+    subroutine shmem_float_set(dest, value, pe) &
+        bind(C,name="shmem_float_set")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_FLOAT) :: dest
+      real(kind=C_FLOAT), value :: value
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_float_set
+  end interface
+
+  interface
+    subroutine shmem_double_set(dest, value, pe) &
+        bind(C,name="shmem_double_set")
+      use, intrinsic :: iso_c_binding
+      real(kind=C_DOUBLE) :: dest
+      real(kind=C_DOUBLE), value :: value
+      integer(kind=C_INT), value :: pe
+    end subroutine shmem_double_set
   end interface
 
 end module shmem

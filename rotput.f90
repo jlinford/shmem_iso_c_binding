@@ -44,6 +44,8 @@ program rotput
 
   call shmem_init()
 
+
+
   me = shmem_my_pe()
   npes = shmem_n_pes()
   write (*,"('Hello from PE ',I0,' of ',I0)") me,npes
@@ -51,15 +53,27 @@ program rotput
   nextpe = mod(me+1, npes)
   src = nextpe
 
+  if (shmem_pe_accessible(int(nextpe,kind=C_INT)) == 0) then
+    write (*,"('ERROR: ',I0,' is not acessible from ',I0)") nextpe,me
+  else
+    write (*,"(I0,' is accessible from ',I0)") nextpe,me
+  end if
+
   cptr_dest = shmem_malloc(c_sizeof(C_INT))
   if (.not.c_associated(cptr_dest)) then
     write (*,*) "shmem_malloc failed"
     stop
   end if
-  call c_f_pointer(cptr_dest, dest, [1])
+  call c_f_pointer(cptr_dest, dest)
 
   dest = -1
   call shmem_barrier_all()
+
+  if (shmem_addr_accessible(cptr_dest, int(nextpe,kind=C_INT)) == 0) then
+    write (*,"('ERROR: dest on ',I0,' is not acessible from ',I0)") nextpe,me
+  else
+    write (*,"('dest on ',I0,' is accessible from ',I0)") nextpe,me
+  end if
 
   call shmem_int_put(dest, src, int(1, C_SIZE_T), nextpe)
 

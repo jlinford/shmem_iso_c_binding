@@ -524,13 +524,19 @@ void  printShmemMessageAfterRoutine(pdbRoutine *r, ofstream& impl, FunctionSigna
 
 static string iso_c_type(string const & x)
 {
-    string typestr;
-    if (x.find("const") == 0) {
-        typestr = x.substr(6, string::npos);
+    string typestr = x;
+    if (typestr.find("const") == 0) {
+        typestr = typestr.substr(6, string::npos);
     } else {
-        typestr = x;
+        typestr = typestr;
     }
-    if (typestr == "void *") return "type(C_PTR)";
+    if (typestr.find("volatile") == 0) {
+        typestr = typestr.substr(9, string::npos);
+    } else {
+        typestr = typestr;
+    }
+
+    if (typestr == "void *") return "type(C_PTR), value";
 
     if (typestr == "char") return "character(kind=C_CHAR), value";
     if (typestr == "short") return "integer(kind=C_SHORT), value";

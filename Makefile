@@ -31,17 +31,20 @@
 
 TARGET = a.out
 
-FC = gfortran
+FC = mpif90
 FFLAGS = $(OPT_FLAGS) $(WARN_FLAGS) $(OPENSHMEM_FLAGS) $(GASNET_FLAGS)
 
-OPT_FLAGS = -O3 --param max-inline-insns-single=35000 --param inline-unit-growth=10000 --param large-function-growth=200000
-WARN_FLAGS = -Winline
-OPENSHMEM_FLAGS = -I/usr/local/packages/openshmem-1.2/include -L/usr/local/packages/openshmem-1.2/lib -Wl,-rpath,/usr/local/packages/openshmem-1.2/lib
-GASNET_FLAGS = -L/usr/local/packages//gasnet-1.26.3/lib
+OPT_FLAGS = -O3 --param max-inline-insns-single=35000 --param inline-unit-growth=10000 --param large-function-growth=200000 -Winline -std=gnu99 -D_GNU_SOURCE=1
+WARN_FLAGS =
+OPENSHMEM_FLAGS = -I/usr/local/packages/openshmem-1.3/openmpi-1.8_gcc-4.9/include -L/usr/local/packages/openshmem-1.3/openmpi-1.8_gcc-4.9/lib
+GASNET_FLAGS = -L/usr/local/packages/GASNet-1.28.0/openmpi-1.8_gcc-4.9/lib -L/storage/packages/gcc/4.9.3/bin/../lib/gcc/x86_64-unknown-linux-gnu/4.9.3
+
+mpif90 -I/usr/local/packages/openshmem-1.3/openmpi-1.8_gcc-4.9/include rotput.f90 -L/usr/local/packages/openshmem-1.3/openmpi-1.8_gcc-4.9/lib -O3 --param max-inline-insns-single=35000 --param inline-unit-growth=10000 --param large-function-growth=200000 -Winline -std=gnu99 -D_GNU_SOURCE=1 -lopenshmem -L/usr/lib64 -Wl,-rpath,/usr/lib64 -lelf -L/usr/local/packages/GASNet-1.28.0/openmpi-1.8_gcc-4.9/lib -lgasnet-mpi-par -lammpi -lpthread -lrt -L/storage/packages/gcc/4.9.3/bin/../lib/gcc/x86_64-unknown-linux-gnu/4.9.3 -lgcc -lm
+
 
 LD = $(FC)
-LDFLAGS = $(FFLAGS)
-LIBS = -lopenshmem -lelf -lgasnet-smp-par -lpthread -lrt -lgcc -lm
+LDFLAGS = $(FFLAGS) -L/usr/lib64 -Wl,-rpath,/usr/lib64
+LIBS = -lopenshmem -lelf -lgasnet-mpi-par -lammpi -lpthread -lrt -lgcc -lm
 
 OBJ = rotput.o shmem.o
 
