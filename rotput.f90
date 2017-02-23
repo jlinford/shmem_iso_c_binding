@@ -41,10 +41,16 @@ program rotput
   integer(C_INT) :: src
   type(C_PTR) :: cptr_dest
   integer(C_INT), pointer :: dest
+  character(C_CHAR), dimension(SHMEM_MAX_NAME_LEN) :: shmem_name
+  integer(C_INT), dimension(2) :: shmem_version
 
   call shmem_init()
 
+  call shmem_info_get_name(shmem_name)
+  write (*,*) shmem_name(1:maxloc(index(shmem_name, C_NULL_CHAR), 1))
 
+  call shmem_info_get_version(shmem_version(1), shmem_version(2))
+  write (*,"('Version ',I0,'.',I0)") shmem_version
 
   me = shmem_my_pe()
   npes = shmem_n_pes()

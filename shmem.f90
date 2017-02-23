@@ -40,6 +40,25 @@
 module shmem
   implicit none
 
+  integer, parameter :: SHMEM_MAX_NAME_LEN = 1024
+
+  interface
+    subroutine shmem_info_get_name(name) &
+        bind(C,name="shmem_info_get_name")
+      use, intrinsic :: iso_c_binding
+      character(kind=C_CHAR), dimension(*) :: name
+    end subroutine shmem_info_get_name
+  end interface
+
+  interface
+    subroutine shmem_info_get_version(major, minor) &
+        bind(C,name="shmem_info_get_version")
+      use, intrinsic :: iso_c_binding
+      integer(kind=C_INT) :: major
+      integer(kind=C_INT) :: minor
+    end subroutine shmem_info_get_version
+  end interface
+
   interface
     subroutine start_pes(npes) &
         bind(C,name="start_pes")
