@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/82876629.svg)](https://doi.org/10.5281/zenodo.14919152)
+
 # shmem_iso_c_binding
 
 A simple Fortran example that uses [ISO_C_BINDING](https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html) to call [OpenSHMEM](http://www.openshmem.org/).
